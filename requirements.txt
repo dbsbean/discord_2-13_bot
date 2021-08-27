@@ -1,2 +1,2 @@
-discord.py
-asyncio.py
+discord.py == 1.7.3
+asyncio.py == 3.4.3
