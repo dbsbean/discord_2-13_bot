@@ -1,10 +1,11 @@
-import asyncio
 import discord
 import datetime
+import os
+
 
 client=discord.Client()
 
-token="ODI1Mzc1Njg0OTU1ODY1MDg5.YF9BAg.xfuHqpiqVzaKUyaGSCCGOTKe68I"
+access_token=os.environ["BOT_TOKEN"]
 
 today=datetime.datetime.today().weekday()
 
@@ -103,4 +104,4 @@ async def on_message(message):
             await message.channel.send("도움이 필요하신가요?")
 
 
-client.run(token)
+client.run(access_token)
