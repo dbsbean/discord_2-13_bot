@@ -29,7 +29,7 @@ async def on_message(message):
             return wb["A" + str(i)].value == str(message.author.id)
 
 
-    def check2(reaction, user):
+    def check(reaction, user):
         return user == message.author and str(reaction.emoji) in reactions
 
     if message.content.startswith("!"):
@@ -105,15 +105,29 @@ async def on_message(message):
             em.add_field(name="!내정보",value="자신이 맞춘 퀴즈개수와 레벨등을 안내하는 명령어 입니다.",inline=False)
             em.add_field(name="!배워",value="단어를 학습시키는 명령어 입니다.(!배워 학습시킬단어 단어뜻)",inline=False)
             em.add_field(name="!알려줘",value="학습시킨 단어를 불러오는 명령어 입니다.(!알려줘 학습시킨 단어)")
+            em.add_field(name="!가입",value="회원가입을 진행하는 명령어입니다.",inline=False)
+            em.add_field(name="!탈퇴",value="가입된 회원정보를 삭제하고 탈퇴하는 명령어 입니다.",inline=False)
+
             await message.channel.send(embed=em)
-        
+
         elif message.content=="!급식":
             await message.channel.send("업데이트 예정")
 
         elif message.content=="!퀴즈":
-            await message.channel.send("업데이트 예정")
+            embe=discord.Embed(color=0xff9900)
+            embe.add_field(name="1회 퀴즈",value="난이도 ★☆☆☆☆",inline=True)
+            embe.add_field(name=">",value=">",inline=False)
+            embe.add_field(name="3,4,6=2412",value=".",inline=False)
+            embe.add_field(name="5,7,1=735",value=".",inline=False)
+            embe.add_field(name="9,2,8=1618",value=".",inline=False)
+            embe.add_field(name="6,7,4=?",value=".",inline=False)
+            embe.add_field(name="?안에 들어갈 숫자는 무엇일까요?",value="답을 제출할땐 !정답: ooo 형식으로 제출", inline= False)
+            await message.channel.send(embed=embe)
+            
+            
+            
 
-        elif message.content == "!정답: 000":
+        elif message.content == "!정답: 4228":
             await message.channel.send("정답입니다.")
 
         elif message.content.startswith("!정답:"):
@@ -137,7 +151,7 @@ async def on_message(message):
                     break
 
                 elif wb["A" + str(i)].value == None:
-                    embed = discord.Embed(title="회원 가입을 진행합니다", description="아래의 이모지에 반응하세요.")
+                    embed = discord.Embed(title="회원 가입을 진행합니다", description="아래의 이모지에 반응하세요.",color=0xff9900)
                     msg = await message.channel.send(embed=embed)
                     await msg.add_reaction(yes)
                     await msg.add_reaction(no)
@@ -165,7 +179,7 @@ async def on_message(message):
 
             file.save("memberlist.xlsx")
 
-        if message.content == "탈퇴":
+        if message.content == "!탈퇴":
             file = openpyxl.load_workbook("memberlist.xlsx")
             wb = file.active
     
@@ -178,7 +192,7 @@ async def on_message(message):
                     await msg.add_reaction(no)
 
                     try:
-                        reaction, user = await client.wait_for("reaction_add", check=check2, timeout=15)
+                        reaction, user = await client.wait_for("reaction_add", check=check, timeout=15)
                 
                         if str(reaction.emoji) == yes:
                             await msg.delete()
@@ -204,4 +218,5 @@ async def on_message(message):
 
 
 
-client.run(access_token)
+client.run("access_token")
+    
