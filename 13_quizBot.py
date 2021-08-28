@@ -1,3 +1,4 @@
+import asyncio
 import discord
 import datetime
 import os
@@ -8,16 +9,21 @@ client=discord.Client()
 
 access_token=os.environ["BOT_TOKEN"]
 
-
+yes = "⭕"
+no = "❌"
+reactions = [yes, no]
 
 @client.event
 async def on_ready():
     print(client.user.name)
     print('started bot')    
-    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name="정답 받는중"))
+    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.competing, name="정답 받는중"))
 
 @client.event
 async def on_message(message):
+    def check(reaction, user):
+        return user == message.author and str(reaction.emoji) in reactions
+
     if message.content.startswith("!"):
         if message.content == "!시간표":
             today=datetime.datetime.today().weekday()
@@ -81,7 +87,7 @@ async def on_message(message):
             else:
                 await message.channel.send("오늘은 등교일이 아닙니다")
 
-        if message.content=="!도움":
+        elif message.content=="!도움":
             em=discord.Embed(color=0xff9900)
             em.add_field(name="!시간표",value="오늘의 시간표를 보여주는 명령입니다.(수업 접속링크도 함께)",inline=False)
             em.add_field(name="!퀴즈",value="이번주 퀴즈 내용을 보여주는 명령어 입니다.",inline=False)
@@ -93,44 +99,64 @@ async def on_message(message):
             em.add_field(name="!알려줘",value="학습시킨 단어를 불러오는 명령어 입니다.(!알려줘 학습시킨 단어)")
             await message.channel.send(embed=em)
         
-        if message.content=="!급식":
+        elif message.content=="!급식":
             await message.channel.send("업데이트 예정")
 
-        if message.content=="!퀴즈":
+        elif message.content=="!퀴즈":
             await message.channel.send("업데이트 예정")
 
-        if message.content == "!정답: 000":
+        elif message.content == "!정답: 000":
             await message.channel.send("정답입니다.")
 
         elif message.content.startswith("!정답:"):
             await message.channel.send("오답입니다.") 
 
-        if message.content== "!정답보기":
+        elif message.content== "!정답보기":
             await message.channel.send("업데이트 예정")
 
-        if message.content.startswith("!배워"):
-            file=openpyxl.load_workbook("discord_bot1.xlsx")
-            sheet=file.active
-            learn=message.content.split(" ")
-            for i in range(1,101):
-                if sheet["A"+str(i)].value=="-":
-                    sheet["A"+str(i)].value = learn[1]
-                    sheet["B"+str(i)].value = learn[2]
-                    await message.channel.send("단어가 학습되었습니다.")
-                    break
-                file.save("discord_bot1.xlsx")
+        elif message.content.startswith("!배워"):
+            await message.channel.send("업데이트 예정")            
 
-        if message.content.startswith("!알려줘"):
-            file=openpyxl.load_workbook("discord_bot1.xlsx")
-            sheet=file.active
-            remem=message.content.split(" ")
-            for i in range(1,101):
-                if sheet["A"+str(i)].value==remem[1]:
-                    await client.send_message(message.channel, sheet["B"+str(i)].value)
+        elif message.content.startswith("!알려줘"):
+            await message.channel.send("업데이트 예정")
+        elif message.content == "!가입":
+            file = openpyxl.load_workbook("memberlist.xlsx")
+            wb = file.active
+            for i in range(1, 101):
+                if wb["A" + str(i)].value == str(message.author.id):
+                    await message.channel.send("이미 가입된 사용자입니다.")
                     break
+
+                elif wb["A" + str(i)].value == None:
+                    embed = discord.Embed(title="회원 가입을 진행합니다", description="아래의 이모지에 반응하세요.")
+                    msg = await message.channel.send(embed=embed)
+                    await msg.add_reaction(yes)
+                    await msg.add_reaction(no)
+
+                    try:
+                        reaction, user=await client.wait_for("reaction_add", check=check, timeout=15)
+                    
+                        if str(reaction.emoji) == yes:
+                            await msg.delete()                
+
+                            wb["A" + str(i)].value = str(message.author.id)
+                            wb["B" + str(i)].value = str(message.author)
+                            wb["C" + str(i)].value = str(datetime.datetime.now().replace(microsecond=0))
+                            await message.channel.send("가입이 완료되었습니다.")
+                            break
             
-        else:
-            await message.channel.send("도움이 필요하신가요?")
+                        elif str(reaction.emoji) == no:
+                            await msg.delete()
+                            await message.channel.send("취소 되었습니다.")
+                            break
+                        
+                    except asyncio.exceptions.TimeoutError:
+                        await msg.delete()
+                        await message.channel.send("시간이 초과되었습니다")
+
+            file.save("memberlist.xlsx")
+            
+
 
 
 client.run(access_token)
