@@ -119,6 +119,7 @@ async def on_message(message):
 
         elif message.content.startswith("!알려줘"):
             await message.channel.send("업데이트 예정")
+            
         elif message.content == "!가입":
             file = openpyxl.load_workbook("memberlist.xlsx")
             wb = file.active
@@ -155,7 +156,7 @@ async def on_message(message):
                         await message.channel.send("시간이 초과되었습니다")
 
             file.save("memberlist.xlsx")
-            
+
 
 
 
