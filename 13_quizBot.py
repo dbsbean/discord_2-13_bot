@@ -7,7 +7,7 @@ client=discord.Client()
 
 access_token=os.environ["BOT_TOKEN"]
 
-today=datetime.datetime.today().weekday()
+
 
 @client.event
 async def on_ready():
@@ -20,6 +20,7 @@ async def on_ready():
 async def on_message(message):
     if message.content.startswith("!"):
         if message.content == "!시간표":
+            today=datetime.datetime.today().weekday()
             if today==0:
                 emb=discord.Embed(color=0xff9900)
                 emb.add_field(name="오늘의 시간표",value="월요일",inline=False)
