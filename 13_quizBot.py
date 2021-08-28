@@ -89,6 +89,8 @@ async def on_message(message):
             em.add_field(name="!정답보기", value="이번주 퀴즈의 정답자와 답을 보여주는 명령어 입니다.", inline=False)
             em.add_field(name="!급식",value="오늘의 급식을 안내하는 명령어 입니다.",inline=False)
             em.add_field(name="!내정보",value="자신이 맞춘 퀴즈개수와 레벨등을 안내하는 명령어 입니다.",inline=False)
+            em.add_field(name="!배워",value="단어를 학습시키는 명령어 입니다.(!배워 학습시킬단어 단어뜻)",inline=False)
+            em.add_field(name="!알려줘",value="학습시킨 단어를 불러오는 명령어 입니다.(!알려줘 학습시킨 단어)")
             await message.channel.send(embed=em)
         
         if message.content=="!급식":
