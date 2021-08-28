@@ -99,8 +99,11 @@ async def on_message(message):
         elif message.content=="!퀴즈":
             await message.channel.send("업데이트 예정")
 
-        elif message.content == "!정답":
-                await message.channel.send("정답이 무엇인가요?")
+        elif message.content == "!정답: 000":
+            await message.channel.send("정답 입니다")
+        elif message.content =="!정답:":
+            await message.channel.send("오답입니다")
+            
         else:
             await message.channel.send("도움이 필요하신가요?")
 
