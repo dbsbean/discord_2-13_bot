@@ -21,7 +21,15 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    def check(reaction, user):
+    def member():
+        file = openpyxl.load_workbook("memberlist.xlsx")
+        wb = file.active
+   
+        for i in range(1, 101):
+            return wb["A" + str(i)].value == str(message.author.id)
+
+
+    def check2(reaction, user):
         return user == message.author and str(reaction.emoji) in reactions
 
     if message.content.startswith("!"):
@@ -157,6 +165,42 @@ async def on_message(message):
 
             file.save("memberlist.xlsx")
 
+        if message.content == "탈퇴":
+            file = openpyxl.load_workbook("memberlist.xlsx")
+            wb = file.active
+    
+            for i in range(1, 101):
+                if wb["A" + str(i)].value == str(message.author.id):
+                    embed = discord.Embed(title="탈퇴를 진행합니다", description="아래의 이모지에 반응하세요.")
+                    msg = await message.channel.send(embed=embed)
+
+                    await msg.add_reaction(yes)
+                    await msg.add_reaction(no)
+
+                    try:
+                        reaction, user = await client.wait_for("reaction_add", check=check2, timeout=15)
+                
+                        if str(reaction.emoji) == yes:
+                            await msg.delete()
+                            wb.delete_rows(i)
+                            await message.channel.send("탈퇴처리가 정상적으로 완료되었습니다.")
+                            break
+
+                        elif str(reaction.emoji) == no:
+                            await msg.delete()
+                            await message.channel.send("취소 되었습니다.")
+                            break
+
+                    except asyncio.exceptions.TimeoutError:
+                        await msg.delete()
+                        await message.channel.send("시간이 초과되었습니다")
+                        break
+
+                elif wb["A" + str(i)].value == None:
+                    await message.channel.send("가입하지 않은 사용자입니다.")
+                    break
+
+            file.save("memberlist.xlsx")
 
 
 
