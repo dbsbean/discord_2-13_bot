@@ -1,6 +1,7 @@
 import discord
 import datetime
 import os
+import openpyxl
 
 
 client=discord.Client()
@@ -13,8 +14,7 @@ access_token=os.environ["BOT_TOKEN"]
 async def on_ready():
     print(client.user.name)
     print('started bot')    
-    game=discord.Game('정답 받기')
-    await client.change_presence(status=discord.Status.online, activity=game)
+    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name="정답 받는중"))
 
 @client.event
 async def on_message(message):
@@ -81,31 +81,52 @@ async def on_message(message):
             else:
                 await message.channel.send("오늘은 등교일이 아닙니다")
 
-        elif message.content=="!도움":
+        if message.content=="!도움":
             em=discord.Embed(color=0xff9900)
             em.add_field(name="!시간표",value="오늘의 시간표를 보여주는 명령입니다.(수업 접속링크도 함께)",inline=False)
             em.add_field(name="!퀴즈",value="이번주 퀴즈 내용을 보여주는 명령어 입니다.",inline=False)
             em.add_field(name="!정답: OOO",value="이번주 퀴즈의 정답을 입력하는 명령어 입니다.(ex> !정답: 홍길동)",inline=False)
             em.add_field(name="!정답보기", value="이번주 퀴즈의 정답자와 답을 보여주는 명령어 입니다.", inline=False)
-            em.add_field(name="!교가",value="대평중 교가를 트는 명령어 입니다.",inline=False)
             em.add_field(name="!급식",value="오늘의 급식을 안내하는 명령어 입니다.",inline=False)
+            em.add_field(name="!내정보",value="자신이 맞춘 퀴즈개수와 레벨등을 안내하는 명령어 입니다.",inline=False)
             await message.channel.send(embed=em)
         
-        elif message.content=="!교가":
-            await message.channel.send("업데이트 예정")
-        
-        elif message.content=="!급식":
+        if message.content=="!급식":
             await message.channel.send("업데이트 예정")
 
-        elif message.content=="!퀴즈":
+        if message.content=="!퀴즈":
             await message.channel.send("업데이트 예정")
 
-        elif message.content == "!정답: 000":
-            await message.channel.send("정답입니다")
+        if message.content == "!정답: 000":
+            await message.channel.send("정답입니다.")
 
-        elif message.content.startswith =="!정답":
-            await message.channel.send("오답입니다")   
+        elif message.content.startswith("!정답:"):
+            await message.channel.send("오답입니다.") 
 
+        if message.content== "!정답보기":
+            await message.channel.send("업데이트 예정")
+
+        if message.content.startswith("!배워"):
+            file=openpyxl.load_workbook("discord_bot1.xlsx")
+            sheet=file.active
+            learn=message.content.split(" ")
+            for i in range(1,101):
+                if sheet["A"+str(i)].value=="-":
+                    sheet["A"+str(i)].value = learn[1]
+                    sheet["B"+str(i)].value = learn[2]
+                    await message.channel.send("단어가 학습되었습니다.")
+                    break
+                file.save("discord_bot1.xlsx")
+
+        if message.content.startswith("!알려줘"):
+            file=openpyxl.load_workbook("discord_bot1.xlsx")
+            sheet=file.active
+            remem=message.content.split(" ")
+            for i in range(1,101):
+                if sheet["A"+str(i)].value==remem[1]:
+                    await client.send_message(message.channel, sheet["B"+str(i)].value)
+                    break
+            
         else:
             await message.channel.send("도움이 필요하신가요?")
 
