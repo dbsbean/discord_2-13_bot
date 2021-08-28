@@ -85,7 +85,8 @@ async def on_message(message):
             em=discord.Embed(color=0xff9900)
             em.add_field(name="!시간표",value="오늘의 시간표를 보여주는 명령입니다.(수업 접속링크도 함께)",inline=False)
             em.add_field(name="!퀴즈",value="이번주 퀴즈 내용을 보여주는 명령어 입니다.",inline=False)
-            em.add_field(name="!정답",value="이번주 퀴즈의 정답을 입력하는 명령어 입니다.(정답이 나왔을 경우 답을 보여줍니다)",inline=False)
+            em.add_field(name="!정답: OOO",value="이번주 퀴즈의 정답을 입력하는 명령어 입니다.(ex> !정답: 홍길동)",inline=False)
+            em.add_field(name="!정답보기", value="이번주 퀴즈의 정답자와 답을 보여주는 명령어 입니다.", inline=False)
             em.add_field(name="!교가",value="대평중 교가를 트는 명령어 입니다.",inline=False)
             em.add_field(name="!급식",value="오늘의 급식을 안내하는 명령어 입니다.",inline=False)
             await message.channel.send(embed=em)
@@ -100,10 +101,11 @@ async def on_message(message):
             await message.channel.send("업데이트 예정")
 
         elif message.content == "!정답: 000":
-            await message.channel.send("정답 입니다")
-        elif message.content =="!정답:":
-            await message.channel.send("오답입니다")
-            
+            await message.channel.send("정답입니다")
+
+        elif message.content.startswith =="!정답":
+            await message.channel.send("오답입니다")   
+
         else:
             await message.channel.send("도움이 필요하신가요?")
 
