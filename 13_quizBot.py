@@ -77,7 +77,9 @@ async def on_message(message):
                 emb.add_field(name="5교시", value="[과학](https://zoom.us/j/3440254414?pwd=alNVQ0NlS0VYdkZoRWlLeWhpS2thQT09#success)",inline=False)
                 emb.add_field(name="6교시", value="[역사](https://zoom.us/j/6404846050?pwd=MklheVFUOUlnclVFd1l5OXlxRnBTUT09#success)",inline=False)
                 await message.channel.send(embed=emb)
-            else:
+            elif today==5:
+                await message.channel.send("오늘은 등교일이 아닙니다")
+            elif today==6:
                 await message.channel.send("오늘은 등교일이 아닙니다")
 
         elif message.content=="!도움":
