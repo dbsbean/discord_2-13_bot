@@ -7,7 +7,7 @@ import openpyxl
 
 client=discord.Client()
 
-#access_token=os.environ["BOT_TOKEN"]
+access_token=os.environ["BOT_TOKEN"]
 
 yes = "⭕"
 no = "❌"
@@ -167,8 +167,9 @@ async def on_message(message):
             elif wb["D"+str(1)].value == None:
                 await message.channel.send("정답이 아직 안나왔습니다.")
             else:
-                emv=discord.Embed(title="정답보기",description="정답:4228",color=0xff9900)
-                emv=discord.Embed(title="정답자",discription=str(wb["D"+str(1)]))
+                emv=discord.Embed(title="정답보기",color=0xff9900)
+                emv.add_field(name="정답자",value=wb["D"+str(1)].value,inline=False)
+                emv.add_field(name="정답",value="4228",inline=False)
                 await message.channel.send(embed=emv)
             file.save("memberlist.xlsx")
 
@@ -256,6 +257,5 @@ async def on_message(message):
     
 
 
-client.run("ODI1Mzc1Njg0OTU1ODY1MDg5.YF9BAg.GwU91Ejsce2BUZ2ZcWurte5xHhU")
+client.run("access_token")
     
-#access_token
