@@ -14,6 +14,7 @@ no = "❌"
 reactions = [yes, no]
 
 
+
 @client.event
 async def on_ready():
     print(client.user.name)
@@ -148,7 +149,11 @@ async def on_message(message):
                 
             else:
                 await message.channel.send("정답입니다.")
-                wb["D" + str(1)].value = str(message.author)             
+                if wb["D" + str(1)].value == None:
+                    wb["D" + str(1)].value = str(message.author)  
+                    
+                
+
             file.save("memberlist.xlsx")
 
             
@@ -163,6 +168,7 @@ async def on_message(message):
             today=datetime.datetime.today().weekday()
             if today==5:
                 wb.delete_rows(1)
+                
             
             elif wb["D"+str(1)].value == None:
                 await message.channel.send("정답이 아직 안나왔습니다.")
@@ -266,7 +272,7 @@ async def on_message(message):
                     
                 else:
                     await message.channel.send("가입하지 않은 사용자입니다.")
-                    break;
+                    break
 
     
 
