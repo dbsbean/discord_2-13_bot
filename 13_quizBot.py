@@ -254,6 +254,20 @@ async def on_message(message):
 
             file.save("memberlist.xlsx")
 
+        elif message.content=="!내정보":
+            file = openpyxl.load_workbook("memberlist.xlsx")
+            wb = file.active
+            for i in range(1, 101):
+                if wb["A" + str(i)].value == str(message.author.id):
+                    emve=discord.Embed(title="내정보",color=0xff9900)
+                    emve.add_field(name="이름",value=message.author.name, inline=True)
+                    emve.add_field(name="서버닉네임",value=message.author.display_name,inline=False)
+                    emve.add_field(name="가입일",value=wb["C" + str(i)].value)
+                    
+                else:
+                    await message.channel.send("가입하지 않은 사용자입니다.")
+                    break;
+
     
 
 
