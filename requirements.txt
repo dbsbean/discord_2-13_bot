@@ -1,3 +1,5 @@
 discord.py
 asyncio
 openpyxl
+requests
+bs4
