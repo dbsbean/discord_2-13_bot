@@ -2,4 +2,4 @@ discord.py
 asyncio
 openpyxl
 requests
-bs4
+BeBeautifulSoup4
