@@ -389,27 +389,13 @@ async def on_message(message):
         
             await message.channel.send(embed=emved)
         
-        elif message.content=="!돈":
-            file = openpyxl.load_workbook("memberlist.xlsx")
-            wb = file.active
-            for i in range(1, 101):
-                if wb["A" + str(i)].value == str(message.author.id):
-                    e=0
-                    break
-                else:
-                    e=1
-            if e==0:
-                await message.channel.send(money) 
-            else:
-                await message.channel.send("가입하지 않은 사용자입니다.") 
-            e=0
-
         elif message.content=="!돈받기":
             file = openpyxl.load_workbook("memberlist.xlsx")
             wb = file.active
             for i in range(1, 101):
                 if wb["A" + str(i)].value == str(message.author.id):
                     money=money+500
+                    wb["D" + str(i)].value = money
                    
                     e=0 
                     break                  
@@ -422,8 +408,25 @@ async def on_message(message):
             else:
                 await message.channel.send("가입하지 않은 사용자입니다.")
 
-            e=0
             file.save("memberlist.xlsx")
+        
+        elif message.content=="!돈":
+            file = openpyxl.load_workbook("memberlist.xlsx")
+            wb = file.active
+            for i in range(1, 101):
+                if wb["A" + str(i)].value == str(message.author.id):
+                    wb["D" + str(i)].value = money
+                    e=0
+                    break
+                else:
+                    e=1
+            if e==0:
+                await message.channel.send(wb["D" + str(i)].value) 
+            else:
+                await message.channel.send("가입하지 않은 사용자입니다.") 
+            e=0
+
+        
 
 
 client.run(access_token)
