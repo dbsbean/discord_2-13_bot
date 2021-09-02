@@ -11,8 +11,6 @@ client=discord.Client()
 
 access_token=os.environ["BOT_TOKEN"]
 
-money=0
-
 ran=random.randint(0,5)
 role=["마피아","시민","의사","경찰","군인"]
 
@@ -36,6 +34,7 @@ async def on_member_join(member):
 
 @client.event
 async def on_message(message):
+    money=0
     an=0
     b=0
     c=0
@@ -66,7 +65,7 @@ async def on_message(message):
 
     if message.content.startswith("!"):
         if message.content == "!시간표":
-            today=datetime.datetime.now(datetime.timezone.utc+9).weekday()
+            today=datetime.datetime.now().weekday()
             if today==0:
                 emb=discord.Embed(color=0xff9900)
                 emb.add_field(name="오늘의 시간표",value="월요일",inline=False)
