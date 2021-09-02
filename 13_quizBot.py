@@ -11,6 +11,8 @@ client=discord.Client()
 
 access_token=os.environ["BOT_TOKEN"]
 
+money=0
+
 ran=random.randint(0,5)
 role=["마피아","시민","의사","경찰","군인"]
 
@@ -279,7 +281,7 @@ async def on_message(message):
                             wb["A" + str(i)].value = str(message.author.id)
                             wb["B" + str(i)].value = str(message.author)
                             wb["C" + str(i)].value = str(datetime.datetime.now().replace(microsecond=0))
-                            wb["D" + str(i)].value = int(500)
+                            wb["D" + str(i)].value = money
                             await message.channel.send("가입이 완료되었습니다.")
                             break
             
@@ -393,7 +395,6 @@ async def on_message(message):
             wb = file.active
             for i in range(1, 101):
                 if wb["A" + str(i)].value == str(message.author.id):
-                    money=wb["D"+str(i)].value
                     e=0
                     break
                 else:
@@ -409,7 +410,7 @@ async def on_message(message):
             wb = file.active
             for i in range(1, 101):
                 if wb["A" + str(i)].value == str(message.author.id):
-                    money=wb["D" + str(i)].value+500
+                    money=money+500
                    
                     e=0 
                     break                  
