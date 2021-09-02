@@ -64,7 +64,7 @@ async def on_message(message):
 
     if message.content.startswith("!"):
         if message.content == "!시간표":
-            today=datetime.datetime.today().weekday()
+            today=datetime.datetime.now(datetime.timezone.utc+9).weekday()
             if today==0:
                 emb=discord.Embed(color=0xff9900)
                 emb.add_field(name="오늘의 시간표",value="월요일",inline=False)
@@ -94,7 +94,7 @@ async def on_message(message):
                 emb.add_field(name="조회",value="https://zoom.us/j/4620065666?pwd=aDJ1T2ZSQkRaSVFBaEczSmtMVk9CZz09 (462 006 5666, 1357)")
                 emb.add_field(name="1교시", value="[영어](https://zoom.us/j/6924056614?pwd=WGR1SGsrU0xhVlFXcWFKbjlmcExxUT09) 692 405 6614, 1212", inline=False)
                 emb.add_field(name="2교시", value="[체육](https://www.ebsoc.co.kr/) 온라인 클래스", inline=False)
-                emb.add_field(name="3교시", value="[미술](https://zoom.us/j/2210779923?pwd=MHlPMjJkYnV2QmhZRVdRZWk1bnBxdz09) 221 077 9923, 2121",inline=False)
+                emb.add_field(name="3교시", value="[미술](https://zoom.us/j/2210779923?pwd=MHlPMjJkYnV2QmhZRVdRZWk1bnBxdz09) 221 077 9923, 2121o",inline=False)
                 emb.add_field(name="4교시", value="[수학](https://us02web.zoom.us/j/6718992309?pwd=ci8rQVByUXVPMElwQ01ITlBwUmxLdz09) 671 899 2309, 486486",inline=False)
                 emb.add_field(name="5교시", value="[도덕](https://us02web.zoom.us/j/6725551179?pwd=QjBsYWh4cGlVRUNtcnJyeGxQNEpYZz09) 672 555 1179, 12345",inline=False)
                 emb.add_field(name="6교시", value="[스포츠](https://sites.google.com/ggh.goe.go.kr/eovud2/%ED%99%88/%EC%97%AD%EC%82%AC) 각자 맞는 선생님 방에 접속",inline=False)
@@ -137,6 +137,8 @@ async def on_message(message):
             em.add_field(name="!내정보",value="이름, 서버닉네임, 가입일을 안내하는 명령어 입니다.",inline=False)
             em.add_field(name="!날씨", value="오늘의 날씨를 알려주는 명령어 입니다.",inline=False)
             em.add_field(name="!청소",value="메시지를 삭제하는 명령어 입니다.(ex> !청소 20)",inline=False)
+            em.add_field(name="!돈",value="현재 보유중인 돈의 양을 알려주는 명령어 입니다.", inline=False)
+            em.add_field(name="!돈받기",value="돈을 받는 명령어 입니다.",inline=False)
 
             await message.channel.send(embed=em)
 
@@ -154,7 +156,7 @@ async def on_message(message):
             wb = file.active
             for i in range(1, 101):
                 if wb["A" + str(i)].value == str(message.author.id):
-                    today=datetime.datetime.today().weekday()
+                    today=datetime.datetime.now(datetime.timezone.utc+9).weekday()
 
                     if today!=6:
                         embe=discord.Embed(color=0xff9900)
@@ -178,15 +180,17 @@ async def on_message(message):
                 an=0
 
         elif message.content == "!정답: 4":
-            file = openpyxl.load_workbook("memberlist.xlsx")
+            file1=openpyxl.load_workbook("memberlist.xlsx")
+            wb1=file1.active
+            file = openpyxl.load_workbook("quiz.xlsx")
             wb = file.active
             for i in range(1, 101):
-                if wb["A" + str(i)].value == str(message.author.id):
-                    today=datetime.datetime.today().weekday()
+                if wb1["A" + str(i)].value == str(message.author.id):
+                    today=datetime.datetime.now(datetime.timezone.utc+9).weekday()
                     if today!=6:
-                        if wb["D" + str(1)].value == None:
+                        if wb["A" + str(1)].value == None:
                             await message.channel.send("정답입니다.")
-                            wb["D" + str(1)].value = str(message.author)  
+                            wb["A" + str(1)].value = str(message.author)  
                             b=1  
                             break             
                         else:
@@ -204,16 +208,17 @@ async def on_message(message):
                     
                 
 
-            file.save("memberlist.xlsx")
+            file.save("quiz.xlsx")
 
             
 
         elif message.content.startswith("!정답:"):
-            file = openpyxl.load_workbook("memberlist.xlsx")
-            wb = file.active
+            file1 = openpyxl.load_workbook("memberlist.xlsx")
+            wb1 = file1.active
+            
             for i in range(1, 101):
-                if wb["A" + str(i)].value == str(message.author.id):
-                    today=datetime.datetime.today().weekday()
+                if wb1["A" + str(i)].value == str(message.author.id):
+                    today=datetime.datetime.now(datetime.timezone.utc+9).weekday()
                     if today!=6:                    
                         await message.channel.send("오답입니다.") 
                         c=1
@@ -230,37 +235,26 @@ async def on_message(message):
 
         elif message.content== "!정답보기":
             
-            file=openpyxl.load_workbook("memberlist.xlsx")
+            file=openpyxl.load_workbook("quiz.xlsx")
             wb=file.active
-            for i in range(1, 101):
-                if wb["A" + str(i)].value == str(message.author.id):
-                    today=datetime.datetime.today().weekday()
-                    if today==6:
-                        wb.delete_rows(1)
-                        await message.channel.send("오늘은 퀴즈 재정비의 날입니다.")  
-                        d=1 
-                        break     
+            today=datetime.datetime.now(datetime.timezone.utc+9).weekday()
+            if today==6:
+                wb.delete_rows(1)
+                await message.channel.send("오늘은 퀴즈 재정비의 날입니다.")  
+                      
             
-                    elif wb["D"+str(1)].value == None:
-                        await message.channel.send("정답이 아직 안나왔습니다.")
-                        d=1
-                        break
-                    else:
-                        emv=discord.Embed(title="정답보기",color=0xff9900)
-                        emv.add_field(name="정답자",value=wb["D"+str(1)].value,inline=False)
-                        emv.add_field(name="정답",value="4",inline=False)
-                        await message.channel.send(embed=emv)
-                        d=1
-                        break
-
-            if d==0:
-                await message.channel.send("가입하지 않은 사용자입니다")
+            elif wb["A"+str(1)].value == None:
+                await message.channel.send("정답이 아직 안나왔습니다.")
+                    
+                    
             else:
-                d=0
+                emv=discord.Embed(title="정답보기",color=0xff9900)
+                emv.add_field(name="정답자",value=wb["D"+str(1)].value,inline=False)
+                emv.add_field(name="정답",value="4",inline=False)
+                await message.channel.send(embed=emv)
                   
 
-            file.save("memberlist.xlsx")
-
+    
             
         elif message.content == "!가입":
             file = openpyxl.load_workbook("memberlist.xlsx")
@@ -285,6 +279,7 @@ async def on_message(message):
                             wb["A" + str(i)].value = str(message.author.id)
                             wb["B" + str(i)].value = str(message.author)
                             wb["C" + str(i)].value = str(datetime.datetime.now().replace(microsecond=0))
+                            wb["D" + str(i)].value = int(500)
                             await message.channel.send("가입이 완료되었습니다.")
                             break
             
@@ -339,12 +334,17 @@ async def on_message(message):
         elif message.content=="!내정보":
             file = openpyxl.load_workbook("memberlist.xlsx")
             wb = file.active
+            file1=openpyxl.load_workbook("quiz.xlsx")
+            wb1=file1.active
             for i in range(1, 101):
                 if wb["A" + str(i)].value == str(message.author.id):
                     emve=discord.Embed(title="내정보",color=0xff9900)
                     emve.add_field(name="이름",value=message.author.name, inline=True)
                     emve.add_field(name="서버닉네임",value=message.author.display_name,inline=False)
                     emve.add_field(name="가입일",value=wb["C" + str(i)].value)
+                    if wb1["A" + str(1)].value==str(message.author):
+                        emve.add_filed(name="이번퀴즈의 정답자!!!",value="다음 퀴즈도 열심히 해주세요",intline=False)
+
                     await message.channel.send(embed=emve)
                     e=1
                     break
@@ -388,8 +388,43 @@ async def on_message(message):
         
             await message.channel.send(embed=emved)
         
-        
-       
+        elif message.content=="!돈":
+            file = openpyxl.load_workbook("memberlist.xlsx")
+            wb = file.active
+            for i in range(1, 101):
+                if wb["A" + str(i)].value == str(message.author.id):
+                    money=wb["D"+str(i)].value
+                    e=0
+                    break
+                else:
+                    e=1
+            if e==0:
+                await message.channel.send(money) 
+            else:
+                await message.channel.send("가입하지 않은 사용자입니다.") 
+            e=0
+
+        elif message.content=="!돈받기":
+            file = openpyxl.load_workbook("memberlist.xlsx")
+            wb = file.active
+            for i in range(1, 101):
+                if wb["A" + str(i)].value == str(message.author.id):
+                    money=wb["D" + str(i)].value+500
+                   
+                    e=0 
+                    break                  
+                else:
+                    e=1
+
+            if e==0:
+                await message.channel.send("돈 500을 지급했습니다.")  
+                await message.channel.send("현재 돈: "+ str(money)) 
+            else:
+                await message.channel.send("가입하지 않은 사용자입니다.")
+
+            e=0
+            file.save("memberlist.xlsx")
 
 
 client.run(access_token)
+
