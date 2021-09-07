@@ -129,9 +129,6 @@ async def on_message(message):
         elif message.content=="!도움":
             em=discord.Embed(color=0xff9900)
             em.add_field(name="!시간표",value="오늘의 시간표를 보여주는 명령입니다.(수업 접속링크도 함께)",inline=False)
-            em.add_field(name="!퀴즈",value="이번주 퀴즈 내용을 보여주는 명령어 입니다.",inline=False)
-            em.add_field(name="!정답: OOO",value="이번주 퀴즈의 정답을 입력하는 명령어 입니다.(ex> !정답: 홍길동)",inline=False)
-            em.add_field(name="!정답보기", value="이번주 퀴즈의 정답자와 답을 보여주는 명령어 입니다.", inline=False)
             em.add_field(name="!급식",value="오늘의 급식을 안내하는 명령어 입니다.",inline=False)
             em.add_field(name="!가입",value="회원가입을 진행하는 명령어입니다.",inline=False)
             em.add_field(name="!탈퇴",value="가입된 회원정보를 삭제하고 탈퇴하는 명령어 입니다.",inline=False)
@@ -152,108 +149,7 @@ async def on_message(message):
 
             await message.channel.send(sou.get_text)
 
-        elif message.content=="!퀴즈":
-            file = openpyxl.load_workbook("memberlist.xlsx")
-            wb = file.active
-            for i in range(1, 101):
-                if wb["A" + str(i)].value == str(message.author.id):
-                    today=datetime.datetime.now(datetime.timezone.utc+9).weekday()
-
-                    if today!=6:
-                        embe=discord.Embed(color=0xff9900)
-                        embe.add_field(name="1회 퀴즈",value="난이도 ★★☆☆☆",inline=True)
-                        embe.add_field(name=">",value=None,inline=False)
-                        embe.add_field(name="4859=3   3707=1",value=".",inline=False)
-                        embe.add_field(name="5663=2   0000=4",value=".",inline=False) 
-                        embe.add_field(name="1543=0   8988=7",value=".",inline=False)    
-                        embe.add_field(name="4629=2   6803=?",value=".",inline=False)           
-                        embe.add_field(name="?안에 들어갈 숫자를 고르시오",value="답을 제출할땐 !정답: ooo 형식으로 제출(ex>!정답: 543", inline= False)
-                        await message.channel.send(embed=embe)
-                        an=1
-                        break
-                    else:
-                        await message.channel.send("오늘은 퀴즈 재정비의 날 입니다.")
-                        an=1
-                        break
-            if an==0:
-                await message.channel.send("가입하지 않은 사용자입니다.")            
-            else:
-                an=0
-
-        elif message.content == "!정답: 4":
-            file1=openpyxl.load_workbook("memberlist.xlsx")
-            wb1=file1.active
-            file = openpyxl.load_workbook("quiz.xlsx")
-            wb = file.active
-            for i in range(1, 101):
-                if wb1["A" + str(i)].value == str(message.author.id):
-                    today=datetime.datetime.now(datetime.timezone.utc+9).weekday()
-                    if today!=6:
-                        if wb["A" + str(1)].value == None:
-                            await message.channel.send("정답입니다.")
-                            wb["A" + str(1)].value = str(message.author)  
-                            b=1  
-                            break             
-                        else:
-                            await message.channel.send("이미 정답이 나왔습니다.")
-                            b=1
-                            break
-                    else:
-                        await message.channel.send("오늘은 퀴즈 재정비의 날입니다.")
-                        b=1
-                        break
-            if b==0:
-                await message.channel.send("가입하지 않은 사용자입니다")
-            else:
-                b=0                           
-                    
-                
-
-            file.save("quiz.xlsx")
-
-            
-
-        elif message.content.startswith("!정답:"):
-            file1 = openpyxl.load_workbook("memberlist.xlsx")
-            wb1 = file1.active
-            
-            for i in range(1, 101):
-                if wb1["A" + str(i)].value == str(message.author.id):
-                    today=datetime.datetime.now(datetime.timezone.utc+9).weekday()
-                    if today!=6:                    
-                        await message.channel.send("오답입니다.") 
-                        c=1
-                        break
-                    else:
-                        await message.channel.send("오늘은 퀴즈 재정비의 날입니다.")
-                        c=1
-                        break
-            if c==0:                
-                await message.channel.send("가입하지 않은 사용자입니다")
-            else:
-                c=0
-                    
-
-        elif message.content== "!정답보기":
-            
-            file=openpyxl.load_workbook("quiz.xlsx")
-            wb=file.active
-            today=datetime.datetime.now(datetime.timezone.utc+9).weekday()
-            if today==6:
-                wb.delete_rows(1)
-                await message.channel.send("오늘은 퀴즈 재정비의 날입니다.")  
-                      
-            
-            elif wb["A"+str(1)].value == None:
-                await message.channel.send("정답이 아직 안나왔습니다.")
-                    
-                    
-            else:
-                emv=discord.Embed(title="정답보기",color=0xff9900)
-                emv.add_field(name="정답자",value=wb["D"+str(1)].value,inline=False)
-                emv.add_field(name="정답",value="4",inline=False)
-                await message.channel.send(embed=emv)
-                  
+        
 
     
             
