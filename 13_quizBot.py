@@ -321,7 +321,6 @@ async def on_message(message):
             else:
                 await message.channel.send("가입하지 않은 사용자입니다.") 
             e=0
-            file.save("memberlist.xlsx")
 
         
 
