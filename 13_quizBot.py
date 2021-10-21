@@ -6,6 +6,8 @@ import openpyxl
 import requests
 from bs4 import BeautifulSoup
 import random
+from pytz import timezone
+
 
 client=discord.Client()
 
@@ -66,14 +68,7 @@ async def on_message(message):
 
     if message.content.startswith("!"):
         if message.content == "!시간표":
-            today=datetime.datetime.now().weekday()
-            now=datetime.datetime.today().hour
-
-            if now>=0 and now<9:
-                today=today+1
-
-            if today==7:
-                today==0
+            today=datetime.datetime.now(timezone('Asia/Seoul')).weekday()
 
             if today==0:
                 emb=discord.Embed(color=0xff9900)
