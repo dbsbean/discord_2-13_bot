@@ -66,7 +66,15 @@ async def on_message(message):
 
     if message.content.startswith("!"):
         if message.content == "!시간표":
-            today=datetime.datetime.now(-9).weekday()
+            today=datetime.datetime.now().weekday()
+            now=datetime.datetime.today().hour
+
+            if now>=0 and now<9:
+                today=today+1
+
+            if today==7:
+                today==0
+
             if today==0:
                 emb=discord.Embed(color=0xff9900)
                 emb.add_field(name="오늘의 시간표",value="월요일",inline=False)
