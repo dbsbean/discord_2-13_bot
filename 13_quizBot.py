@@ -9,7 +9,6 @@ import random
 
 client=discord.Client()
 
-access_token=os.environ["BOT_TOKEN"]
 
 ran=random.randint(0,5)
 role=["마피아","시민","의사","경찰","군인"]
@@ -65,12 +64,12 @@ async def on_message(message):
 
     if message.content.startswith("!"):
         if message.content == "!시간표":
-            today=datetime.datetime.now().weekday()
+            today=datetime.datetime.now().weekday()-9
             if today==0:
                 emb=discord.Embed(color=0xff9900)
                 emb.add_field(name="오늘의 시간표",value="월요일",inline=False)
                 emb.add_field(name="조회",value="https://zoom.us/j/4620065666?pwd=aDJ1T2ZSQkRaSVFBaEczSmtMVk9CZz09 (462 006 5666, 1357)")
-                emb.add_field(name="1교시", value="[국어](https://zoom.us/postattendee?mn=6kqirr5rS6FQCgP-gtJl3jduQqU_Ct6epa8.XWHsVVFJcTf2V4OP&id=2) 368 729 7166, 1004", inline=False)           
+                emb.add_field(name="1교시", value="[국어](https://zoom.us/j/3687297166?pwd=UVA3bDJ0VklhUzZVNGlBRXVUdk1UQT09) 368 729 7166, 1004", inline=False)           
                 emb.add_field(name="2교시", value="[영어](https://zoom.us/j/6924056614?pwd=WGR1SGsrU0xhVlFXcWFKbjlmcExxUT09) 692 405 6614, 1212", inline=False)
                 emb.add_field(name="3교시", value="[음악](https://zoom.us/j/8992587200?pwd=WnRDY0ZLUUJPdTE0VWMrVTdCUHlQQT09) 899 258 7200, 1243",inline=False)
                 emb.add_field(name="4교시", value="[도덕](https://us02web.zoom.us/j/6725551179?pwd=QjBsYWh4cGlVRUNtcnJyeGxQNEpYZz09) 672 555 1179, 12345",inline=False)
@@ -83,7 +82,7 @@ async def on_message(message):
                 emb.add_field(name="조회",value="https://zoom.us/j/4620065666?pwd=aDJ1T2ZSQkRaSVFBaEczSmtMVk9CZz09 (462 006 5666, 1357)")
                 emb.add_field(name="1교시", value="[과학](https://zoom.us/j/3440254414?pwd=alNVQ0NlS0VYdkZoRWlLeWhpS2thQT09) 344 025 4414, 1234", inline=False)
                 emb.add_field(name="2교시", value="[수학](https://us02web.zoom.us/j/6718992309?pwd=ci8rQVByUXVPMElwQ01ITlBwUmxLdz09) 671 899 2309, 486486", inline=False)
-                emb.add_field(name="3교시", value="[국어](https://zoom.us/postattendee?mn=6kqirr5rS6FQCgP-gtJl3jduQqU_Ct6epa8.XWHsVVFJcTf2V4OP&id=2) 368 729 7166, 1004",inline=False)           
+                emb.add_field(name="3교시", value="[국어](https://zoom.us/j/3687297166?pwd=UVA3bDJ0VklhUzZVNGlBRXVUdk1UQT09) 368 729 7166, 1004",inline=False)           
                 emb.add_field(name="4교시", value="[역사](https://zoom.us/j/6404846050?pwd=MklheVFUOUlnclVFd1l5OXlxRnBTUT09) 640 484 6050, durian",inline=False)
                 emb.add_field(name="5교시", value="[미술](https://zoom.us/j/2210779923?pwd=MHlPMjJkYnV2QmhZRVdRZWk1bnBxdz09) 221 077 9923, 2121",inline=False)
                 emb.add_field(name="6교시", value="[한문](https://zoom.us/j/4620065666?pwd=aDJ1T2ZSQkRaSVFBaEczSmtMVk9CZz09)462 006 5666, 1357",inline=False)
@@ -104,7 +103,7 @@ async def on_message(message):
                 emb=discord.Embed(color=0xff9900)
                 emb.add_field(name="오늘의 시간표",value="목요일",inline=False)
                 emb.add_field(name="조회",value="https://zoom.us/j/4620065666?pwd=aDJ1T2ZSQkRaSVFBaEczSmtMVk9CZz09 (462 006 5666, 1357)")
-                emb.add_field(name="1교시", value="[국어](https://zoom.us/postattendee?mn=6kqirr5rS6FQCgP-gtJl3jduQqU_Ct6epa8.XWHsVVFJcTf2V4OP&id=2) 368 729 7166, 1004", inline=False)            
+                emb.add_field(name="1교시", value="[국어](https://zoom.us/j/3687297166?pwd=UVA3bDJ0VklhUzZVNGlBRXVUdk1UQT09) 368 729 7166, 1004", inline=False)            
                 emb.add_field(name="2교시", value="[영어](https://zoom.us/j/6924056614?pwd=WGR1SGsrU0xhVlFXcWFKbjlmcExxUT09) 692 405 6614, 1212", inline=False)
                 emb.add_field(name="3교시", value="[수학](https://us02web.zoom.us/j/6718992309?pwd=ci8rQVByUXVPMElwQ01ITlBwUmxLdz09) 671 899 2309, 486486",inline=False)
                 emb.add_field(name="4교시", value="[체육](https://www.ebsoc.co.kr/) 온라인 클래스",inline=False)
@@ -117,7 +116,7 @@ async def on_message(message):
                 emb.add_field(name="오늘의 시간표",value="금요일",inline=False)
                 emb.add_field(name="조회",value="https://zoom.us/j/4620065666?pwd=aDJ1T2ZSQkRaSVFBaEczSmtMVk9CZz09 (462 006 5666, 1357)")
                 emb.add_field(name="1교시", value="[체육](https://www.ebsoc.co.kr/) 온라인 클래스", inline=False)
-                emb.add_field(name="2교시", value="[국어](https://zoom.us/postattendee?mn=6kqirr5rS6FQCgP-gtJl3jduQqU_Ct6epa8.XWHsVVFJcTf2V4OP&id=2) 368 729 7166, 1004", inline=False)            
+                emb.add_field(name="2교시", value="[국어](https://zoom.us/j/3687297166?pwd=UVA3bDJ0VklhUzZVNGlBRXVUdk1UQT09) 368 729 7166, 1004", inline=False)            
                 emb.add_field(name="3교시", value="[한문](https://zoom.us/j/4620065666?pwd=aDJ1T2ZSQkRaSVFBaEczSmtMVk9CZz09) 462 006 5666, 1357",inline=False)
                 emb.add_field(name="4교시", value="[수학](https://us02web.zoom.us/j/6718992309?pwd=ci8rQVByUXVPMElwQ01ITlBwUmxLdz09) 671 899 2309, 486486",inline=False)
                 emb.add_field(name="5교시", value="[과학](https://zoom.us/j/3440254414?pwd=alNVQ0NlS0VYdkZoRWlLeWhpS2thQT09) 344 025 4414, 1234",inline=False)
@@ -149,107 +148,7 @@ async def on_message(message):
 
             await message.channel.send(sou.get_text)
 
-        elif message.content=="!퀴즈":
-            file = openpyxl.load_workbook("memberlist.xlsx")
-            wb = file.active
-            for i in range(1, 101):
-                if wb["A" + str(i)].value == str(message.author.id):
-                    today=datetime.datetime.now(datetime.timezone.utc+9).weekday()
-
-                    if today!=6:
-                        embe=discord.Embed(color=0xff9900)
-                        embe.add_field(name="1회 퀴즈",value="난이도 ★★☆☆☆",inline=True)
-                        embe.add_field(name=">",value=None,inline=False)
-                        embe.add_field(name="4859=3   3707=1",value=".",inline=False)
-                        embe.add_field(name="5663=2   0000=4",value=".",inline=False) 
-                        embe.add_field(name="1543=0   8988=7",value=".",inline=False)    
-                        embe.add_field(name="4629=2   6803=?",value=".",inline=False)           
-                        embe.add_field(name="?안에 들어갈 숫자를 고르시오",value="답을 제출할땐 !정답: ooo 형식으로 제출(ex>!정답: 543", inline= False)
-                        await message.channel.send(embed=embe)
-                        an=1
-                        break
-                    else:
-                        await message.channel.send("오늘은 퀴즈 재정비의 날 입니다.")
-                        an=1
-                        break
-            if an==0:
-                await message.channel.send("가입하지 않은 사용자입니다.")            
-            else:
-                an=0
-
-        elif message.content == "!정답: 4":
-            file1=openpyxl.load_workbook("memberlist.xlsx")
-            wb1=file1.active
-            file = openpyxl.load_workbook("quiz.xlsx")
-            wb = file.active
-            for i in range(1, 101):
-                if wb1["A" + str(i)].value == str(message.author.id):
-                    today=datetime.datetime.now(datetime.timezone.utc+9).weekday()
-                    if today!=6:
-                        if wb["A" + str(1)].value == None:
-                            await message.channel.send("정답입니다.")
-                            wb["A" + str(1)].value = str(message.author)  
-                            b=1  
-                            break             
-                        else:
-                            await message.channel.send("이미 정답이 나왔습니다.")
-                            b=1
-                            break
-                    else:
-                        await message.channel.send("오늘은 퀴즈 재정비의 날입니다.")
-                        b=1
-                        break
-            if b==0:
-                await message.channel.send("가입하지 않은 사용자입니다")
-            else:
-                b=0                           
-                    
-                
-
-            file.save("quiz.xlsx")
-
-            
-
-        elif message.content.startswith("!정답:"):
-            file1 = openpyxl.load_workbook("memberlist.xlsx")
-            wb1 = file1.active
-            
-            for i in range(1, 101):
-                if wb1["A" + str(i)].value == str(message.author.id):
-                    today=datetime.datetime.now(datetime.timezone.utc+9).weekday()
-                    if today!=6:                    
-                        await message.channel.send("오답입니다.") 
-                        c=1
-                        break
-                    else:
-                        await message.channel.send("오늘은 퀴즈 재정비의 날입니다.")
-                        c=1
-                        break
-            if c==0:                
-                await message.channel.send("가입하지 않은 사용자입니다")
-            else:
-                c=0
-                    
-
-        elif message.content== "!정답보기":
-            
-            file=openpyxl.load_workbook("quiz.xlsx")
-            wb=file.active
-            today=datetime.datetime.now(datetime.timezone.utc+9).weekday()
-            if today==6:
-                wb.delete_rows(1)
-                await message.channel.send("오늘은 퀴즈 재정비의 날입니다.")  
-                      
-            
-            elif wb["A"+str(1)].value == None:
-                await message.channel.send("정답이 아직 안나왔습니다.")
-                    
-                    
-            else:
-                emv=discord.Embed(title="정답보기",color=0xff9900)
-                emv.add_field(name="정답자",value=wb["D"+str(1)].value,inline=False)
-                emv.add_field(name="정답",value="4",inline=False)
-                await message.channel.send(embed=emv)
+        
     
             
         elif message.content == "!가입":
@@ -424,5 +323,5 @@ async def on_message(message):
         
 
 
-client.run(access_token)
+client.run("ODI1Mzc1Njg0OTU1ODY1MDg5.YF9BAg.aZ7AoOuoO1t8gen7anwVoJFK5Ko")
 
