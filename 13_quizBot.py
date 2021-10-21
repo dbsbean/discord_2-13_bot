@@ -9,6 +9,8 @@ import random
 
 client=discord.Client()
 
+access_token=os.environ["BOT_TOKEN"]
+
 
 ran=random.randint(0,5)
 role=["마피아","시민","의사","경찰","군인"]
@@ -323,5 +325,5 @@ async def on_message(message):
         
 
 
-client.run("ODI1Mzc1Njg0OTU1ODY1MDg5.YF9BAg.aZ7AoOuoO1t8gen7anwVoJFK5Ko")
+client.run(access_token)
 
